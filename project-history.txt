@@ -1,0 +1,56 @@
+## main_1.m 2020-04-08
++ Added query for file input
++ Added file validation
+    > Check if file exist()
+    > Extension checking with fileparts()
++ Added basic exception handling with try/catch block for managing file input later on
++ Added basic block definitions by querying for output sizes
+
+## main_2.m 2020-04-18
++ Added ability to load image as array with imread()
++ Added file details display
++ Added debug statuses and command window clearing with clear/clc
++ Added ASCII character set and corresponding pixel intensity (brightness value) index.
++ Added a function that (kind of) converts blocks of the image into ASCII
+    > Basic block region definitions.
+    > Print blocks of image to row of blocks, then pieced back together as full array.
+    > This will allow us to perform operations on the individual blocks.
+    > Goal is to average block values and convert their intensity to ASCII characters.
++ Output is currently displayed in command window.
++ Added a function that attempts to export the output as a text or image file with fopen() and imshow().
+
+## main_3.m 2020-04-21
++ Added fancy-looking welcome header displaying project name and version info.
++ Added image trimming function to support images with irregular sizes.
++ Added a block_size finding algorithm to support images with large sizes.
++ Added output size options (query user choice from very large, large, medium, small).
++ Added function that compares block intensities with an index for ASCII conversion.
++ Improved user-responsiveness with more verbose output indicating which step of the conversion the program is on.
++ Improved block algorithm to add a "splicing" step to fix 1:2 spacing issues with monospaced fonts.
++ Added function to export ASCII art as output.txt file.
+
+## main_4.m 2020-04-23
++ Added file size validation to improve stability for extremely large images.
++ Fixed inconsistencies with variable names.
++ Improved trimming algorithm to return values used for conversion
++ Improved block_size searching algorithm to support larger images where x-col will exceed 1024 (Notepad column limit)
+	> https://stackoverflow.com/questions/908119/c-sharp-textwriter-inserting-line-break-every-1024-characters/908135#908135
+	> Notepad has a buffer of 1024, which leads to the row being overwritten when output_data has x-col of >1024.
++ Improved block_size search algorithm to determine the size_factor of large images (how many new sizes to generate)
++ Added a second try/catch block to improve stability for output steps
+    > Checks if output is too large for editors affected by the buffer issue above.
++ Added timing functionality with tic/toc to measure code performance (in seconds)
+
+## main_5.m 2020-04-25
++ Fixed typos and improved formatting in user messages, comments are now more clear and concise.
++ Fixed more inconsistencies in variable and exception identifier naming.
++ Optimisations on output_row by preallocating the row's array space.
++ Improved exception handling in output step to prevent bad exports (e.g. reaching 1024 array limit)
++ Added write permission checks for exception handler
+
+## main_6.m 2020-05-02
++ Improved stability with narrow images (e.g. large X, small Y dimensions)
++ Optimised block_size searching algorithm by stopping unnecessary comparisons when the value is already found.
++ Optimised ASCII conversion algorithm by reducing unnecessary mean() operations when block_size = 1.
++ Changed SAVEFILE:OutputTooLarge exception to warning as it is not program-breaking.
++ Fixed issue with unexpected black line in the output for trimmed images.

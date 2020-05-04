@@ -1,0 +1,84 @@
+## FILE INPUT / ASCII CONVERSION ##
+Tests intended to break the flow of the application during the file input validation steps.
+
+--- TEST CASES ---
++ ahsgdhjagdhjsagjd
+    > Random characters to break the application's file checks.
+    > Inputting this should return a 'LOADFILE:FileNotFound' exception.
++ C:\Users\samil\Documents\MATLAB\Project\images\
+    > Directory path, with no file specified, intended to break the application's file checks.
+    > Inputting this should return a 'LOADFILE:FileNotFound' exception.
++ .\images\anna.png
+    > Relative path to file intended check whether if '.' and '..' work, out of curiousity.
+    > Inputting this should return a 'LOADFILE:FileNotFound' exception.
+
+--- FILE TESTS ---
++ C:\Users\samil\Documents\MATLAB\Project\images\absoluteunit.png
+    > Invalid file with even, unequal dimensions of 3500 x 3519.
+    > This file is 8.6 MB, and is intended to break the application's 5 MB input file limit.
+    > Inputting this should return a 'LOADFILE:FileTooLarge' exception.
++ C:\Users\samil\Documents\MATLAB\Project\images\anna.png
+    > Valid file with even, equal dimensions of 500 x 500.
+    > Most basic test for checking file loading functionalities.
++ C:\Users\samil\Documents\MATLAB\Project\images\annaLarge.png
+    > Valid file with uneven, unequal dimensions of 2161 x 1214.
+    > Complicated size for testing trimming / rounding down dimensions / large images.
++ C:\Users\samil\Documents\MATLAB\Project\images\bruh.jpg
+    > Valid file with uneven, unequal dimensions of 500 x 366.
+    > Complicated size for testing rounding up dimensions.
++ C:\Users\samil\Documents\MATLAB\Project\images\logo.png
+    > Valid file with uneven, unequal dimensions of 1049 x 998, has transparent pixels.
+    > Used for testing compatibility with images containing transparent pixels (rgb2gray should ignore alpha values).
++ C:\Users\samil\Documents\MATLAB\Project\images\matlab.png
+    > Valid file with even, unequal dimensions of 560 x 415.
+    > Used for testing images with one side already divisible by 10, and another not.
++ C:\Users\samil\Documents\MATLAB\Project\images\notImage.mp3
+    > Invalid file.
+    > This is a .mp3 file, and is intended to break the application's file extensions checks.
+    > Inputting this should return a 'LOADFILE:FileNotImage' exception.
++ C:\Users\samil\Documents\MATLAB\Project\images\PepeHands.png
+    > Valid file with even, equal dimensions of 128 x 128, has transparent pixels.
+    > Used to test small images' behaviour.
++ C:\Users\samil\Documents\MATLAB\Project\images\stonks.png
+    > Valid file with even, unequal dimensions of 680 x 510.
+    > Used to test images with different contrast and brightness, and images exceeding Notepad's 1024 column limit.
+    > Inputting this with the "very large" output parameter should cause a warning stating that the output will not be displayed correctly.
++ C:\Users\samil\Documents\MATLAB\Project\images\test.png
+    > Valid file with uneven, unequal dimensions of 1594 x 136.
+    > Used to test block averaging behaviours when only two colors are involved (full white, full black).
+    > Used to test narrow images with one extremely large size on one axis and one extremely small size on another.
+    > This initially caused a unwanted line of black characters to appear, likely caused when trimming an image with large dimension differences. (Fixed with v0.6)
++ c:\uSeRs\sAmil\docUments\maTlAb\prOjEcT\iMaGeS\tESt.png
+    > Path to a valid file with a mix of upper/lower cases to test if paths are case-insensitive.
+    > A test similar to this will most likely fail on Linux-based systems where file paths are case-sensitive.
+
+## OUTPUT SIZE ##
+Tests intended to break the flow of the application during the output size query steps.
+
+--- TEST CASES ---
++ VL
+    > Valid input, option "very large".
+    > Basic I/O test.
++ vL
+    > Valid input, option "very large".
+    > Used to test input with upper/lower cases.
++ large
+    > Valid input, option "large".
+    > Used to test input with words instead of the bracketed ID.
++ mEdIuM
+    > Valid input, option "medium".
+    > Used to test input with words, and with a mix of upper/lower cases.
++ asgdiysahjodchasbcda
+    > Invalid input.
+    > Inputting this should return a 'DEFINEBLOCK:OutOfRange' exception.
++ 3
+    > Invalid input.
+    > Inputting this should return a 'DEFINEBLOCK:OutOfRange' exception.
+
+## FILE SAVING ##
+Tests intended to break the flow of the application during the output / file saving steps.
+
+--- TEST CASES ---
++ (Running the program in a working directory with no write permissions, e.g. "C:\Program Files")
+    > Intended to break the fopen() function as a file cannot be written.
+    > Doing so should return a 'MATLAB:FileIO:InvalidFid' exception.
